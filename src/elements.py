@@ -27,9 +27,10 @@ class BasicComponent:
             if (value is not None):
                 if (value > 0):
                     self.value = value
+                else if (value <= 0):
+                    self.doable = False
                 else:
-                    raise ValueError("Sorry, value have to be greater than 0")
-                    # ¿qué ocurre con selfValue si no lo defino en el init? es none? daría error? confuso.
+                    raise ValueError("Sorry, the value have to be a number")
             self.orientation = orientation
 
 class PassiveComponent(BasicComponent):
