@@ -1,8 +1,9 @@
-from sympy import symbols
-from sympy import symbol # https://github.com/sympy/sympy/blob/master/sympy/core/symbol.py
+from sympy import symbols 
+from sympy import Symbol # https://github.com/sympy/sympy/blob/master/sympy/core/symbol.py
 from sympy import I
+from typing import Optional 
 
-
+# The error from Mypy to sympy library can be fixed, we have to read this issue https://github.com/sympy/sympy/pull/18244
 class Nodo:
     def __init__(self, name: str):
         self.name = name
@@ -32,14 +33,50 @@ class BasicComponent:
             self.orientation = orientation
 
 class PassiveComponent(BasicComponent):
-    self.orientation = None
-    w = symbols('w', positive=True) # it's omega.
-
+    def __init__(
+        self,
+        name: str, 
+        nodo1: Nodo, 
+        nodo2: Nodo, 
+        value : Optional[float] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
+        orientation : Optional[Orientation] = None
+        ):
+            super().__init__(name, nodo1, nodo2, value)
+            self.orientation = None
+            self.s = symbols('s', positive=True) 
+    
 class Inductor(PassiveComponent):
-    self.Z = I * w * self.name
+    def __init__(        
+        self,
+        name: str, 
+        nodo1: Nodo, 
+        nodo2: Nodo, 
+        value : Optional[float] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
+        orientation : Optional[Orientation] = None
+        ):
+            super().__init__(name, nodo1, nodo2, value)
+            self.Z = I * self.s * self.name
 
 class Capacitor(PassiveComponent):
-    self.Z = -I * (1 / w * self.name)
+    def __init__(        
+    self,
+    name: str, 
+    nodo1: Nodo, 
+    nodo2: Nodo, 
+    value : Optional[float] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
+    orientation : Optional[Orientation] = None
+    ):
+        super().__init__(name, nodo1, nodo2, value)
+        self.Z = -I * (1 / self.s * self.name)
 
 class Resistor(PassiveComponent):
-    self.Z = self.name
+    def __init__(        
+    self,
+    name: str, 
+    nodo1: Nodo, 
+    nodo2: Nodo, 
+    value : Optional[float] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
+    orientation : Optional[Orientation] = None
+    ):
+        super().__init__(name, nodo1, nodo2, value)
+        self.Z = self.name
