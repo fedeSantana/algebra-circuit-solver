@@ -14,8 +14,8 @@ class Nodo:
         self.elements.append(component)
 
 class Orientation:
-    def __init__(self, name: str):
-        self.name = "positive"
+    def __init__(self, name: bool):
+        self.value = name
 
 class Ground:
     def __init (self, nodo : Nodo):
@@ -49,11 +49,9 @@ class VoltageSource(BasicComponent):
         nodo1: Nodo, 
         nodo2: Nodo, 
         value: Optional[float] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
-        orientation : Optional[Orientation] = None
+        orientation : Orientation
         ):
-            super().__init__(name, nodo1, nodo2, value)
-            self.orientation = None
-            self.s = symbols('s', positive=True) 
+            super().__init__(name, nodo1, nodo2, value, orientation)
 
 class CurrentSource(BasicComponent):
     def __init__(
@@ -64,9 +62,8 @@ class CurrentSource(BasicComponent):
         value: Optional[float] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
         orientation : Optional[Orientation] = None
         ):
-            super().__init__(name, nodo1, nodo2, value)
+            super().__init__(name, nodo1, nodo2, value, orientation)
             self.orientation = None
-            self.s = symbols('s', positive=True) 
 
 class PassiveComponent(BasicComponent):
     def __init__(
