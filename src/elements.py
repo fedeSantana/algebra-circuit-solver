@@ -1,10 +1,10 @@
 from __future__ import annotations
+# The error from Mypy to sympy library can be fixed in the future, here the error in github: https://github.com/sympy/sympy/pull/18244
 from sympy import symbols # type: ignore
 from sympy import Symbol # https://github.com/sympy/sympy/blob/master/sympy/core/symbol.py
 from sympy import I
 from typing import Optional, List, NoReturn
 
-# The error from Mypy to sympy library can be fixed, we have to read this issue https://github.com/sympy/sympy/pull/18244
 class Nodo:
     def __init__(self, name: str, elements: List[BasicComponent]):
         self.name = name
