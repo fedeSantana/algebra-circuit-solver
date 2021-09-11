@@ -1,17 +1,17 @@
 from __future__ import annotations
-from sympy import symbols 
+from sympy import symbols # type: ignore
 from sympy import Symbol # https://github.com/sympy/sympy/blob/master/sympy/core/symbol.py
 from sympy import I
-from typing import Optional 
-from ctypes import Array
+from typing import Optional, List, NoReturn
 
 # The error from Mypy to sympy library can be fixed, we have to read this issue https://github.com/sympy/sympy/pull/18244
 class Nodo:
-    def __init__(self, name: str, elements: Array[BasicComponent]):
+    def __init__(self, name: str, elements: List[BasicComponent]):
         self.name = name
-        self.elements : Array[BasicComponent] = []
+        self.elements : List[BasicComponent] = []
+
     def addElement (self, component : BasicComponent):
-        self.elements.push(component)
+        self.elements.append(component)
 
 class Orientation:
     def __init__(self, name: str):
