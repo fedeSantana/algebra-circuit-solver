@@ -1,3 +1,4 @@
+from __future__ import annotations
 from sympy import symbols 
 from sympy import Symbol # https://github.com/sympy/sympy/blob/master/sympy/core/symbol.py
 from sympy import I
