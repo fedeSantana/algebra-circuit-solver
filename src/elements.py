@@ -2,6 +2,7 @@ from sympy import symbols
 from sympy import Symbol # https://github.com/sympy/sympy/blob/master/sympy/core/symbol.py
 from sympy import I
 from typing import Optional 
+from typing import Union
 
 # The error from Mypy to sympy library can be fixed, we have to read this issue https://github.com/sympy/sympy/pull/18244
 class Nodo:
@@ -12,23 +13,30 @@ class Orientation:
     def __init__(self, name: str):
         self.name = "positive"
 
+class Cero:
+    def __init__(self):
+        self.value  = 0;
+
 class BasicComponent:
     def __init__(
         self,
         name: str, 
         nodo1: Nodo, 
         nodo2: Nodo, 
-        value : Optional[float] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
+        value : Union[None, float, Cero] = None,
         orientation : Optional[Orientation] = None
         ):
             self.name : Symbol = symbols(name, positive=True) 
             self.nodo1 = nodo1 
             self.nodo2 = nodo2
             if (value is not None):
-                if (value > 0):
-                    self.value = value
-                else if (value <= 0):
-                    self.doable = False
+                if (value is Cero or value == 0):
+                    self.value = Cero()
+                elif ( isinstance(  value, float) ):
+                    if (value > 0):
+                        self.value = value
+                    elif (value < 0):
+                        self.doable = False
                 else:
                     raise ValueError("Sorry, the value have to be a number")
             self.orientation = orientation
@@ -39,7 +47,7 @@ class PassiveComponent(BasicComponent):
         name: str, 
         nodo1: Nodo, 
         nodo2: Nodo, 
-        value : Optional[float] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
+        value : Union[None, float, Cero] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
         orientation : Optional[Orientation] = None
         ):
             super().__init__(name, nodo1, nodo2, value)
@@ -52,7 +60,7 @@ class Inductor(PassiveComponent):
         name: str, 
         nodo1: Nodo, 
         nodo2: Nodo, 
-        value : Optional[float] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
+        value : Union[None, float, Cero] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
         orientation : Optional[Orientation] = None
         ):
             super().__init__(name, nodo1, nodo2, value)
@@ -64,7 +72,7 @@ class Capacitor(PassiveComponent):
     name: str, 
     nodo1: Nodo, 
     nodo2: Nodo, 
-    value : Optional[float] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
+    value : Union[None, float, Cero] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
     orientation : Optional[Orientation] = None
     ):
         super().__init__(name, nodo1, nodo2, value)
@@ -76,7 +84,7 @@ class Resistor(PassiveComponent):
     name: str, 
     nodo1: Nodo, 
     nodo2: Nodo, 
-    value : Optional[float] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
+    value : Union[None, float, Cero] = None, # If is Float can be int, here why: https://www.python.org/dev/peps/pep-0484/#the-numeric-tower
     orientation : Optional[Orientation] = None
     ):
         super().__init__(name, nodo1, nodo2, value)
