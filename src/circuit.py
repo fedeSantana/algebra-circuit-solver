@@ -1,4 +1,9 @@
 from elements import Nodo
 
-class circuit ():
-    def __init__(self, name: str, nodes: Nodo):
+class Circuit ():
+    def __init__(self, name: str):
+       self.name = name
+        self.nodos = []
+    def addNodo( nodo : Nodo):
+        nodos.push(nodo)
+

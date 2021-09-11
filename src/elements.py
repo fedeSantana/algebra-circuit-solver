@@ -16,7 +16,7 @@ class Orientation:
     def __init__(self, name: str):
         self.name = "positive"
 
-class ground:
+class Ground:
     def __init (self, nodo : Nodo):
         self.nodo = nodo
 
@@ -41,7 +41,7 @@ class BasicComponent:
                     raise ValueError("Sorry, the value have to be a number")
             self.orientation = orientation
 
-class voltageSource(BasicComponent):
+class VoltageSource(BasicComponent):
     def __init__(
         self,
         name: str, 
@@ -54,7 +54,7 @@ class voltageSource(BasicComponent):
             self.orientation = None
             self.s = symbols('s', positive=True) 
 
-class currentSource(BasicComponent):
+class CurrentSource(BasicComponent):
     def __init__(
         self,
         name: str, 
